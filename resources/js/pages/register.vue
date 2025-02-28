@@ -6,8 +6,10 @@ import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@images/pages/auth-v1-tree.png'
+import axios from 'axios'
 
 const form = ref({
+  name: '',
   username: '',
   email: '',
   password: '',
@@ -21,6 +23,36 @@ const authThemeMask = computed(() => {
 })
 
 const isPasswordVisible = ref(false)
+
+const submitForm = async () => {
+  try {
+    console.log('Form data:', form.value); // Debugging log
+    const response = await axios.post('/api/register', {
+      name: form.value.name,
+      username: form.value.name,
+      email: form.value.email,
+      password: form.value.password,
+    })
+    console.log('Response:', response.data.message); // Debugging log
+  } catch (error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error('Error response:', error.response.data);
+      console.error('Error status:', error.response.status);
+      console.error('Error headers:', error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('Error request:', error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error('Error message:', error.message);
+    }
+    console.error('Error config:', error.config);
+  }
+}
+
+
 </script>
 
 <template>
@@ -52,18 +84,18 @@ const isPasswordVisible = ref(false)
           Adventure starts here 🚀
         </h4>
         <p class="mb-0">
-          Make your app management easy and fun!
+          Make your app management easy and fun111!
         </p>
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="() => {}">
+        <VForm @submit.prevent="submitForm">
           <VRow>
-            <!-- Username -->
+            <!-- User name -->
             <VCol cols="12">
               <VTextField
-                v-model="form.username"
-                label="Username"
+                v-model="form.name"
+                label="User name"
                 placeholder="Johndoe"
               />
             </VCol>
@@ -108,10 +140,9 @@ const isPasswordVisible = ref(false)
 
               <VBtn
                 block
-                type="submit"
-                to="/"
+                type="submit"               
               >
-                Sign up
+                Sign up1
               </VBtn>
             </VCol>
 
